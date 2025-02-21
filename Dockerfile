@@ -1,18 +1,31 @@
-# Stage 1: Build Angular app
-FROM node:20.15-alpine AS angular-builder
+# Dockerfile for NestJS backend
+
+# Stage 1: Build NestJS app
+FROM node:20.15-alpine AS nest-builder
 
 WORKDIR /app
 COPY . .
 RUN npm install
-RUN npx nx build web-app --configuration=production
+RUN npx nx build node-app
 
-# Stage 2: Serve Angular app using Nginx
-FROM nginx:alpine
+# Stage 2: Production stage for NestJS
+FROM node:20.15-alpine
 
-# Copy built Angular files into Nginx
-COPY --from=angular-builder /app/dist/packages/web-app /usr/share/nginx/html
+WORKDIR /app
 
-# Expose port 80
-EXPOSE 80
+# Copy NestJS build output
+COPY --from=nest-builder /app/dist/packages/node-app ./dist/node-app
 
-# Start Nginx (default command)
+# Copy root package.json and package-lock.json (used by NestJS)
+COPY --from=nest-builder /app/package.json ./dist/node-app/
+COPY --from=nest-builder /app/package-lock.json ./dist/node-app/
+
+# Install NestJS production dependencies
+WORKDIR /app/dist/node-app
+RUN npm install --production
+
+# Expose ports
+EXPOSE 3000
+
+# Start NestJS server
+CMD ["node", "main.js"]
