@@ -22,7 +22,7 @@ COPY --from=nest-builder /app/package-lock.json ./dist/node-app/
 
 # Install NestJS production dependencies
 WORKDIR /app/dist/node-app
-RUN npm install --production
+RUN npm install
 
 # Expose ports
 EXPOSE 3000
