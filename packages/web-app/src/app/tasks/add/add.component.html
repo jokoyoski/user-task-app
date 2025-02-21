@@ -1,0 +1,84 @@
+<div class="container">
+  <h1>Add Task Title</h1>
+
+  <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit()" class="task-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="title"
+        required
+        minlength="10"
+      />
+      <mat-error *ngIf="addTaskForm.controls['title'].hasError('required')">
+        Title is required
+      </mat-error>
+      <mat-error *ngIf="addTaskForm.controls['title'].hasError('minlength')">
+        Title must be at least 10 characters
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput rows="4" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Priority</mat-label>
+      <mat-select formControlName="priority">
+        <mat-option value="LOW">Low</mat-option>
+        <mat-option value="MEDIUM">Medium</mat-option>
+        <mat-option value="HIGH">High</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Scheduled Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="scheduledDate"
+        [min]="minDate"
+        [max]="maxDate"
+      />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+
+      <mat-error
+        *ngIf="addTaskForm.controls['scheduledDate'].hasError('required')"
+      >
+        Please select a date.
+      </mat-error>
+      <mat-error
+        *ngIf="addTaskForm.controls['scheduledDate'].hasError('invalidDate')"
+      >
+        Date must be within the next 7 days.
+      </mat-error>
+    </mat-form-field>
+
+    <div class="action-button-row">
+      <button
+        data-testid="add-task"
+        mat-flat-button
+        color="primary"
+        [disabled]="addTaskForm.invalid"
+      >
+        <mat-icon>add</mat-icon> Add Task
+      </button>
+
+      <button
+        data-testid="cancel"
+        type="button"
+        mat-flat-button
+        color="warn"
+        (click)="onCancel()"
+      >
+        <mat-icon>close</mat-icon> Cancel
+      </button>
+    </div>
+  </form>
+</div>
