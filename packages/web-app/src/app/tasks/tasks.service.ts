@@ -13,7 +13,7 @@ export class TasksService {
     private http: HttpClient,
     private storageService: StorageService,
   ) {}
-  private readonly endpointUrl = 'http://localhost:3000/api/tasks';
+  private readonly endpointUrl = 'https://user-task-app.onrender.com/api/tasks';
   getTasksFromApi(): Observable<Task[]> {
     return this.http.get<Task[]>(this.endpointUrl);
   }
