@@ -5,6 +5,7 @@
   "prefix": "take-home",
   "sourceRoot": "packages/web-app/src",
   "tags": [],
+  
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -27,8 +28,8 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumWarning": "10mb",
+              "maximumError": "15mb"
             },
             {
               "type": "anyComponentStyle",

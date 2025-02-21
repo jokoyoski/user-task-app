@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  angular-app:
+    build:
+      context: .
+      target: angular-server
+    ports:
+      - "80:80"
+
+  nest-app:
+    build:
+      context: .
+      target: stage-2
+    ports:
+      - "3000:3000"
